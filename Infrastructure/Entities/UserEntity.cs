@@ -10,4 +10,7 @@ public class UserEntity
     public DateTime Created {  get; set; }
     public DateTime LastModified { get; set; }
     public bool IsEnabled { get; set; }
+
+    public AuthEntity Auth { get; set; } = null!;
+    public ProfileEntity Profile { get; set; } = null!;
 }

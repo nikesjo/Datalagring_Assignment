@@ -65,10 +65,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Entities.AuthEntity", b =>
                 {
                     b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -78,12 +75,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId1")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Authentications");
                 });
@@ -91,10 +83,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Entities.ProfileEntity", b =>
                 {
                     b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -108,12 +97,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId1")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Profiles");
                 });
@@ -158,8 +142,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Entities.AuthEntity", b =>
                 {
                     b.HasOne("Infrastructure.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1")
+                        .WithOne("Auth")
+                        .HasForeignKey("Infrastructure.Entities.AuthEntity", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -169,12 +153,21 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Infrastructure.Entities.ProfileEntity", b =>
                 {
                     b.HasOne("Infrastructure.Entities.UserEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1")
+                        .WithOne("Profile")
+                        .HasForeignKey("Infrastructure.Entities.ProfileEntity", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Infrastructure.Entities.UserEntity", b =>
+                {
+                    b.Navigation("Auth")
+                        .IsRequired();
+
+                    b.Navigation("Profile")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

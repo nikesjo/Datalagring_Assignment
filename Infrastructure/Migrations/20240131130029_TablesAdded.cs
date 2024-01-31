@@ -45,9 +45,7 @@ namespace Infrastructure.Migrations
                 name: "Authentications",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId1 = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -55,8 +53,8 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Authentications", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_Authentications_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Authentications_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -66,9 +64,7 @@ namespace Infrastructure.Migrations
                 name: "Profiles",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId1 = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -77,8 +73,8 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Profiles", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_Profiles_Users_UserId1",
-                        column: x => x.UserId1,
+                        name: "FK_Profiles_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -112,16 +108,6 @@ namespace Infrastructure.Migrations
                 name: "IX_AddressEntityProfileEntity_ProfilesUserId",
                 table: "AddressEntityProfileEntity",
                 column: "ProfilesUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Authentications_UserId1",
-                table: "Authentications",
-                column: "UserId1");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Profiles_UserId1",
-                table: "Profiles",
-                column: "UserId1");
         }
 
         /// <inheritdoc />
