@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Infrastructure.Dtos;
+using System.ComponentModel.DataAnnotations;
 
 namespace Infrastructure.Entities;
 
@@ -13,4 +14,35 @@ public class UserEntity
 
     public AuthEntity Auth { get; set; } = null!;
     public ProfileEntity Profile { get; set; } = null!;
+
+
+    public static implicit operator UserEntity(UserRegistrationDto userRegistrationDto)
+    {
+        var userEntity = new UserEntity
+        {
+            Created = DateTime.Now,
+            LastModified = DateTime.Now,
+            Profile = new ProfileEntity
+            {
+                FirstName = userRegistrationDto.FirstName,
+                LastName = userRegistrationDto.LastName,
+                PhoneNumber = userRegistrationDto.PhoneNumber,
+                Addresses = new List<AddressEntity>
+                {
+                    new AddressEntity
+                    {
+                        StreetName = userRegistrationDto.StreetName,
+                        PostalCode = userRegistrationDto.PostalCode,
+                        City = userRegistrationDto.City
+                    }
+                }
+            },
+            Auth = new AuthEntity
+            {
+                Email = userRegistrationDto.Email,
+                Password = userRegistrationDto.Password
+            }
+        };
+        return userEntity;
+    }
 }
