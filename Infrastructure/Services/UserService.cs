@@ -1,7 +1,10 @@
 ﻿using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Net;
 
 namespace Infrastructure.Services;
 
@@ -21,7 +24,7 @@ public class UserService(IUserRepository userRepository, IAuthRepository authRep
                 var userEntity = new UserEntity
                 {
                     FirstName = userRegistration.FirstName,
-                    LastNsm
+                    
                 };
             }
         }
@@ -39,7 +42,8 @@ public class UserService(IUserRepository userRepository, IAuthRepository authRep
             {
                 var userDto = new UserDto
                 {
-
+                    Id = userEntity.Id,
+                    Email = 
                 }
             }
         }
@@ -47,4 +51,5 @@ public class UserService(IUserRepository userRepository, IAuthRepository authRep
 
         return null!;
     }
+
 }

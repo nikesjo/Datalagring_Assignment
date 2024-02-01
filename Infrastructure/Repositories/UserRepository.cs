@@ -10,6 +10,23 @@ public class UserRepository(UserContext userContext) : Repo<UserEntity, UserCont
 {
     private readonly UserContext _userContext = userContext;
 
+    public override async Task<UserEntity> CreateAsync(UserEntity entity)
+    {
+        try
+        {
+            _userContext.Users
+                .Include(i => i.Profile).ThenInclude(i => i.Addresses)
+                .Include(i => i.Auth)
+                .Add(entity);
+            await _userContext.SaveChangesAsync();
+
+            return entity;
+        }
+        catch { }
+
+        return null!;
+    }
+
     public override async Task<IEnumerable<UserEntity>> GetAsync()
     {
         try
