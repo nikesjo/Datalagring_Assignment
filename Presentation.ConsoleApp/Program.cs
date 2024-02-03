@@ -5,6 +5,7 @@ using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Presentation.ConsoleApp;
 
 var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
 {
@@ -17,4 +18,9 @@ var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
     services.AddScoped<IAddressRepository, AddressRepository>();
 
     services.AddScoped<IUserService, UserService>();
+
+    services.AddSingleton<ConsoleUI>();
 }).Build();
+
+var consoleUI = builder.Services.GetRequiredService<ConsoleUI>();
+await consoleUI.MainMenu();
