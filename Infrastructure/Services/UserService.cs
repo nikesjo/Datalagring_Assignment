@@ -59,7 +59,7 @@ public class UserService(IUserRepository userRepository, IAuthRepository authRep
         try
         {
             var userEntities = await _userRepository.GetAsync();
-            foreach ( var userEntity in userEntities)
+            foreach (var userEntity in userEntities)
             {
                 users.Add(userEntity);
             }
@@ -100,7 +100,7 @@ public class UserService(IUserRepository userRepository, IAuthRepository authRep
                 await _userRepository.DeleteAsync(x => x.Id == userEntity.Id);
                 await _authRepository.DeleteAsync(x => x.UserId == userEntity.Id);
                 await _profileRepository.DeleteAsync(x => x.UserId == userEntity.Id);
-                
+
                 foreach (var addressDto in userEntity.Profile.Addresses)
                 {
                     await _addressRepository.DeleteAsync(x => x.Id == addressDto.Id);
