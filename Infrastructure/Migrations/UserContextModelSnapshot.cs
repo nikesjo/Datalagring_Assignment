@@ -69,13 +69,16 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Authentications");
                 });

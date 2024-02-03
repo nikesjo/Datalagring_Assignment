@@ -46,7 +46,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -108,6 +108,12 @@ namespace Infrastructure.Migrations
                 name: "IX_AddressEntityProfileEntity_ProfilesUserId",
                 table: "AddressEntityProfileEntity",
                 column: "ProfilesUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Authentications_Email",
+                table: "Authentications",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />

@@ -3,10 +3,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Contexts;
 
-public class UserContext(DbContextOptions options) : DbContext(options)
+public class UserContext: DbContext
 {
-    public DbSet<UserEntity> Users { get; set; }
-    public DbSet<AuthEntity> Authentications { get; set; }
-    public DbSet<ProfileEntity> Profiles { get; set; }
-    public DbSet<AddressEntity> Addresses { get; set; }
+    protected UserContext()
+    {
+    }
+
+    public UserContext(DbContextOptions<UserContext> options) : base(options)
+    {
+    }
+
+    public virtual DbSet<UserEntity> Users { get; set; }
+    public virtual DbSet<AuthEntity> Authentications { get; set; }
+    public virtual DbSet<ProfileEntity> Profiles { get; set; }
+    public virtual DbSet<AddressEntity> Addresses { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<AuthEntity>()
+            .HasIndex(x => x.Email)
+            .IsUnique();
+    }
 }

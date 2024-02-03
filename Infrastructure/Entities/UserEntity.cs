@@ -5,11 +5,13 @@ namespace Infrastructure.Entities;
 
 public class UserEntity
 {
+    private static DateTime _currentDateTime = DateTime.Now;
+
     [Key]
     public int Id { get; set; }
 
-    public DateTime Created { get; set; }
-    public DateTime LastModified { get; set; }
+    public DateTime Created { get; set; } = _currentDateTime;
+    public DateTime LastModified { get; set; } = _currentDateTime;
     public bool IsEnabled { get; set; }
 
     public AuthEntity Auth { get; set; } = null!;
@@ -20,8 +22,6 @@ public class UserEntity
     {
         var userEntity = new UserEntity
         {
-            Created = DateTime.Now,
-            LastModified = DateTime.Now,
             Profile = new ProfileEntity
             {
                 FirstName = userRegistrationDto.FirstName,
