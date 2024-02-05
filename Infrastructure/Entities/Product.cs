@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Infrastructure.Dtos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Entities;
@@ -33,4 +34,34 @@ public partial class Product
 
     [InverseProperty("ArticleNumberNavigation")]
     public virtual ProductPrice? ProductPrice { get; set; }
+
+    public static implicit operator Product(ProductRegDto productRegDto)
+    {
+        var product = new Product
+        {
+            ArticleNumber = productRegDto.ArticleNumber,
+            Title = productRegDto.Title,
+            Description = productRegDto.Description,
+            Specification = productRegDto.Specification,
+
+            Category = new Category
+            {
+                CategoryName = productRegDto.CategoryName
+            },
+            Manufacture = new Manufacture
+            {
+                Manufacture1 = productRegDto.Manufacture
+            },
+            ProductPrice = new ProductPrice
+            {
+                Price = (decimal)productRegDto.Price!,
+
+                CurrencyCodeNavigation = new Currency
+                {
+                    Code = productRegDto.CurrencyCode!
+                }
+            }
+        };
+        return product;
+    }
 }
