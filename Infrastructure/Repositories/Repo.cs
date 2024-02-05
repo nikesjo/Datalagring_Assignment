@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
@@ -22,7 +23,7 @@ public abstract class Repo<TEntity, TContext> : IRepo<TEntity> where TEntity : c
 
             return entity;
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return null!;
     }
@@ -40,7 +41,7 @@ public abstract class Repo<TEntity, TContext> : IRepo<TEntity> where TEntity : c
                 return true;
             }
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return false;
     }
@@ -52,7 +53,7 @@ public abstract class Repo<TEntity, TContext> : IRepo<TEntity> where TEntity : c
             var found = await _context.Set<TEntity>().AnyAsync(expression);
             return found;
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return false;
     }
@@ -67,7 +68,7 @@ public abstract class Repo<TEntity, TContext> : IRepo<TEntity> where TEntity : c
                 return entities;
             }
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return null!;
     }
@@ -82,7 +83,7 @@ public abstract class Repo<TEntity, TContext> : IRepo<TEntity> where TEntity : c
                 return entity;
             }
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return null!;
     }
@@ -100,7 +101,7 @@ public abstract class Repo<TEntity, TContext> : IRepo<TEntity> where TEntity : c
                 return existingEntity;
             }
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return null!;
     }

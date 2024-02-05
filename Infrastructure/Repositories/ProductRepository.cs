@@ -2,6 +2,7 @@
 using Infrastructure.Entities;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
@@ -15,7 +16,7 @@ public class ProductRepository(ProductCatalogContext productCatalogContext) : Re
         try
         {
             var entities = await _productCatalogContext.Products
-                .Include(i => i.ProductPrice).ThenInclude(i => i.CurrencyCodeNavigation)
+                .Include(i => i.ProductPrice!).ThenInclude(i => i.CurrencyCodeNavigation)
                 .Include(i => i.Manufacture)
                 .Include(i => i.Category)
                 .ToListAsync();
@@ -24,7 +25,7 @@ public class ProductRepository(ProductCatalogContext productCatalogContext) : Re
                 return entities;
             }
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return null!;
     }
@@ -34,7 +35,7 @@ public class ProductRepository(ProductCatalogContext productCatalogContext) : Re
         try
         {
             var entity = await _productCatalogContext.Products
-                .Include(i => i.ProductPrice).ThenInclude(i => i.CurrencyCodeNavigation)
+                .Include(i => i.ProductPrice!).ThenInclude(i => i.CurrencyCodeNavigation)
                 .Include(i => i.Manufacture)
                 .Include(i => i.Category)
                 .FirstOrDefaultAsync(expression);
@@ -43,7 +44,7 @@ public class ProductRepository(ProductCatalogContext productCatalogContext) : Re
                 return entity;
             }
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return null!;
     }

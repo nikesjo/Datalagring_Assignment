@@ -2,6 +2,7 @@
 using Infrastructure.Entities;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
@@ -23,7 +24,7 @@ public class AddressRepository(UserContext userContext) : Repo<AddressEntity, Us
                 return entities;
             }
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return null!;
     }
@@ -41,7 +42,7 @@ public class AddressRepository(UserContext userContext) : Repo<AddressEntity, Us
                 return entity;
             }
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return null!;
     }

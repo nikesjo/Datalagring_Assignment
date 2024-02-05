@@ -2,6 +2,7 @@
 using Infrastructure.Entities;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Repositories;
@@ -23,7 +24,7 @@ public class CurrencyRepository(ProductCatalogContext productCatalogContext) : R
                 return entities;
             }
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return null!;
     }
@@ -41,7 +42,7 @@ public class CurrencyRepository(ProductCatalogContext productCatalogContext) : R
                 return entity;
             }
         }
-        catch { }
+        catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
         return null!;
     }
