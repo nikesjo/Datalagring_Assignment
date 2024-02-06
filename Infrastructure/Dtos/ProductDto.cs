@@ -13,6 +13,7 @@ public class ProductDto
     public string CategoryName { get; set; } = null!;
     public decimal? Price { get; set; }
     public string? CurrencyCode { get; set; }
+    public string? Currency { get; set; }
 
     public static implicit operator ProductDto(Product product)
     {
