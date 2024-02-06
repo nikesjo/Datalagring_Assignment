@@ -38,14 +38,6 @@ public class UserService(IUserRepository userRepository, IAuthRepository authRep
             if (userEntity != null)
             {
                 return userEntity;
-                //var userDto = new UserDto
-                //{
-                //    Id = userEntity.Id,
-                //    Email = userEntity.Auth.Email,
-                //    FirstName = userEntity.Profile.FirstName,
-                //    LastName = userEntity.Profile.LastName,
-                //    PhoneNumber = userEntity.Profile.PhoneNumber,
-                //};
             }
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
@@ -74,16 +66,34 @@ public class UserService(IUserRepository userRepository, IAuthRepository authRep
     {
         try
         {
-            var user = await _userRepository.GetAsync(x => x.Id == userDto.Id);
-            if (user != null)
+            var userEntity = await _userRepository.GetAsync(x => x.Id == userDto.Id);
+            if (userEntity != null)
             {
-                var updatedUser = await _userRepository.UpdateAsync(x => x.Id == user.Id, user);
-                if (updatedUser != null)
-                {
-                    var updatedUserDto = new UserDto();
+                // Update userEntity properties with values from userDto
+                userEntity.LastModified = userDto.LastModified;
+                userEntity.Profile.FirstName = userDto.FirstName;
+                userEntity.Profile.LastName = userDto.LastName;
+                userEntity.Profile.PhoneNumber = userDto.PhoneNumber;
+                userEntity.Auth.Email = userDto.Email;
+                userEntity.Auth.Password = userDto.Password;
 
-                    return updatedUserDto;
+                // Update Addresses if needed
+                // Note: This assumes AddressDto and AddressEntity have similar properties
+                userEntity.Profile.Addresses.Clear();
+                foreach (var addressDto in userDto.Addresses)
+                {
+                    var addressEntity = new AddressEntity
+                    {
+                        StreetName = addressDto.StreetName,
+                        PostalCode = addressDto.PostalCode,
+                        City = addressDto.City
+                    };
+                    userEntity.Profile.Addresses.Add(addressEntity);
                 }
+
+                await _userRepository.UpdateAsync(x => x.Id == userDto.Id, userEntity);
+
+                return userDto;
             }
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }

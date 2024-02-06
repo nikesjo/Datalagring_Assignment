@@ -216,12 +216,12 @@ internal class ConsoleUI
     {
         Console.Clear();
         Console.WriteLine("--- Update User ---");
-        Console.WriteLine("Enter User Email: ");
-        var email = Console.ReadLine();
+        Console.WriteLine("Enter User Id: ");
+        var id = int.Parse(Console.ReadLine()!);
 
-        if (!string.IsNullOrEmpty(email))
+        if (id > 0)
         {
-            var userToUpdate = await _userService.GetUserAsync(x => x.Auth.Email == email);
+            var userToUpdate = await _userService.GetUserAsync(x => x.Id == id);
 
             if (userToUpdate != null)
             {
@@ -240,6 +240,9 @@ internal class ConsoleUI
 
                 Console.Write("Enter Email: ");
                 userToUpdate.Email = Console.ReadLine()!;
+
+                Console.Write("Enter Password: ");
+                userToUpdate.Password = Console.ReadLine()!;
 
                 foreach (var address in userToUpdate.Addresses)
                 {

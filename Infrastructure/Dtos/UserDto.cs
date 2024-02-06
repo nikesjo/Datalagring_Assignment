@@ -9,7 +9,8 @@ public class UserDto
     public string LastName { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
     public string Email { get; set; } = null!;
-    public DateTime Created {  get; set; }
+    public string Password { get; set; } = null!;
+    public DateTime LastModified {  get; set; } = DateTime.Now;
 
     public List<AddressDto> Addresses { get; set; } = new List<AddressDto>();
 
@@ -19,12 +20,24 @@ public class UserDto
         var userDto = new UserDto
         {
             Id = entity.Id,
-            Created = entity.Created,
+            LastModified = entity.LastModified,
             FirstName = entity.Profile.FirstName,
             LastName = entity.Profile.LastName,
             PhoneNumber = entity.Profile.PhoneNumber,
             Email = entity.Auth.Email
         };
+
+        foreach (var addressEntity in entity.Profile.Addresses)
+        {
+            var addressDto = new AddressDto
+            {
+                StreetName = addressEntity.StreetName,
+                PostalCode = addressEntity.PostalCode,
+                City = addressEntity.City
+            };
+            userDto.Addresses.Add(addressDto);
+        }
+
         return userDto;
     }
 }
