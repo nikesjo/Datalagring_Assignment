@@ -1,5 +1,7 @@
 ﻿using Infrastructure.Dtos;
+using Infrastructure.Entities;
 using Infrastructure.Interfaces;
+using Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Presentation.ConsoleApp;
@@ -7,10 +9,14 @@ namespace Presentation.ConsoleApp;
 internal class ConsoleUI
 {
     private readonly IUserService _userService;
+    private readonly IProductService _productService;
+    private readonly ICurrencyRepository _currencyRepository;
 
-    public ConsoleUI(IUserService userService)
+    public ConsoleUI(IUserService userService, IProductService productService, CurrencyRepository currencyRepository)
     {
         _userService = userService;
+        _productService = productService;
+        _currencyRepository = currencyRepository;
     }
 
     public async Task MainMenu()
@@ -31,7 +37,7 @@ internal class ConsoleUI
                     await UserMenu();
                     break;
                 case "2":
-                    //await ProductMenu();
+                    await ProductMenu();
                     break;
                 case "3":
                     Environment.Exit(0);
@@ -311,4 +317,149 @@ internal class ConsoleUI
             Console.ReadKey();
         }
     }
+
+    //Products
+    public async Task ProductMenu()
+    {
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine("--- Product Menu ---");
+            Console.WriteLine();
+            Console.WriteLine("1. Create new product");
+            Console.WriteLine("2. Show all products");
+            Console.WriteLine("3. Show specific product");
+            Console.WriteLine("4. Update product");
+            Console.WriteLine("5. Delete product");
+            Console.WriteLine("6. Go back to main menu");
+
+            var option = Console.ReadLine();
+
+            switch (option)
+            {
+                case "1":
+                    await CreateProduct_UI();
+                    break;
+                case "2":
+                    await GetProducts_UI();
+                    break;
+                case "3":
+                    await GetProduct_UI();
+                    break;
+                case "4":
+                    await UpdateProduct_UI();
+                    break;
+                case "5":
+                    await DeleteProduct_UI();
+                    break;
+                case "6":
+                    await MainMenu();
+                    break;
+                default:
+                    Console.WriteLine("Invalid option, please try again");
+                    break;
+            }
+
+            Console.ReadKey();
+        }
+    }
+
+    public async Task CreateProduct_UI()
+    {
+        ProductRegDto product = new();
+
+        Console.Clear();
+        Console.Write("Enter Title: ");
+        product.Title = Console.ReadLine()!;
+
+        Console.Write("Enter description: ");
+        product.Description = Console.ReadLine()!;
+
+        Console.Write("Enter specification: ");
+        product.Specification = Console.ReadLine()!;
+
+        Console.Write("Enter categoryname: ");
+        product.CategoryName = Console.ReadLine()!;
+
+        Console.Write("Enter manufacture: ");
+        product.Manufacture = Console.ReadLine()!;
+
+        Console.WriteLine("Enter price: ");
+        product.Price = decimal.Parse(Console.ReadLine()!);
+
+        Console.WriteLine("Enter currency code: ");
+        product.CurrencyCode = Console.ReadLine()!;
+
+        Console.WriteLine("Enter currency: ");
+        product.Currency = Console.ReadLine()!;
+
+        var result = await _productService.CreateProductAsync(product);
+        if (result != null)
+        {
+            Console.Clear();
+            Console.WriteLine("Product was created!");
+            Console.WriteLine("Press any key to continue...");
+        }
+        else
+        {
+            Console.Clear();
+            Console.WriteLine("Something went wrong!");
+            Console.WriteLine("Press any key to continue...");
+        }
+        Console.ReadKey();
+    }
+
+    public async Task GetProducts_UI()
+    {
+        Console.Clear();
+        Console.WriteLine("--- Show All Products ---");
+        var result = await _productService.GetProductsAsync();
+
+        if (result != null)
+        {
+            var products = result as List<ProductDto>;
+
+            if (products != null)
+            {
+                Console.Clear();
+                int count = 1;
+                foreach (var product in products)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine($"{count}. ");
+                    Console.WriteLine($"Article Number: {product.ArticleNumber}");
+                    Console.WriteLine($"{product.Title}");
+                    Console.WriteLine($"{product.Description} ");
+                    Console.WriteLine($"{product.Specification}");
+                    Console.WriteLine($"{product.Manufacture} ");
+                    Console.WriteLine($"{product.CategoryName}");
+                    Console.WriteLine($"{product.Price} {product.CurrencyCode} {product.Currency}  ");
+                    Console.WriteLine();
+
+                    count++;
+                }
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine("No contacts was found.");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
+            }
+        }
+    }
+    public async Task GetProduct_UI()
+    {
+
+    }
+    public async Task UpdateProduct_UI()
+    {
+
+    }
+    public async Task DeleteProduct_UI()
+    {
+
+    }
+
 }

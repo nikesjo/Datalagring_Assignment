@@ -8,7 +8,7 @@ public interface IProductService
 {
     Task<ProductDto> CreateProductAsync(ProductRegDto productRegDto);
     Task<bool> DeleteProductAsync(ProductDto productDto);
-    Task<ProductDto> GetUserAsync(Expression<Func<Product, bool>> expression);
-    Task<IEnumerable<ProductDto>> GetUsersAsync();
-    Task<ProductDto> UpdateUserAsync(ProductDto productDto);
+    Task<ProductDto> GetProductAsync(Expression<Func<Product, bool>> expression);
+    Task<IEnumerable<ProductDto>> GetProductsAsync();
+    Task<ProductDto> UpdateProductAsync(ProductDto productDto);
 }

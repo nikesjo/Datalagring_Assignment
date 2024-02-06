@@ -16,8 +16,14 @@ var builder = Host.CreateDefaultBuilder().ConfigureServices(services =>
     services.AddScoped<IAuthRepository, AuthRepository>();
     services.AddScoped<IProfileRepository, ProfileRepository>();
     services.AddScoped<IAddressRepository, AddressRepository>();
+    services.AddScoped<ICategoryRepository, CategoryRepository>();
+    services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+    services.AddScoped<IManufactureRepository, ManufactureRepository>();
+    services.AddScoped<IProductPriceRepository, ProductPriceRepository>();
+    services.AddScoped<IProductRepository, ProductRepository>();
 
     services.AddScoped<IUserService, UserService>();
+    services.AddScoped<IProductService, ProductService>();
 
     services.AddSingleton<ConsoleUI>();
 }).Build();

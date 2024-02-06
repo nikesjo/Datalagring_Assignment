@@ -69,7 +69,7 @@ public class ProductService(CategoryRepository categoryRepository, CurrencyRepos
         return false;
     }
 
-    public async Task<ProductDto> GetUserAsync(Expression<Func<Product, bool>> expression)
+    public async Task<ProductDto> GetProductAsync(Expression<Func<Product, bool>> expression)
     {
         try
         {
@@ -84,7 +84,7 @@ public class ProductService(CategoryRepository categoryRepository, CurrencyRepos
         return null!;
     }
 
-    public async Task<IEnumerable<ProductDto>> GetUsersAsync()
+    public async Task<IEnumerable<ProductDto>> GetProductsAsync()
     {
         var products = new List<ProductDto>();
         try
@@ -101,7 +101,7 @@ public class ProductService(CategoryRepository categoryRepository, CurrencyRepos
         return null!;
     }
 
-    public async Task<ProductDto> UpdateUserAsync(ProductDto productDto)
+    public async Task<ProductDto> UpdateProductAsync(ProductDto productDto)
     {
         try
         {
