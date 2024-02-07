@@ -1,54 +1,57 @@
 ﻿using Infrastructure.Dtos;
 using Infrastructure.Entities;
 using Infrastructure.Interfaces;
-using Infrastructure.Repositories;
 using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Infrastructure.Services;
 
-public class ProductService(CategoryRepository categoryRepository, CurrencyRepository currencyRepository, ManufactureRepository manufactureRepository, ProductPriceRepository productPriceRepository, ProductRepository productRepository) : IProductService
+public class ProductService(ICategoryRepository categoryRepository, ICurrencyRepository currencyRepository, IManufactureRepository manufactureRepository, IProductPriceRepository productPriceRepository, IProductRepository productRepository) : IProductService
 {
-    private readonly CategoryRepository _categoryRepository = categoryRepository;
-    private readonly CurrencyRepository _currencyRepository = currencyRepository;
-    private readonly ManufactureRepository _manufactureRepository = manufactureRepository;
-    private readonly ProductPriceRepository _productPriceRepository = productPriceRepository;
-    private readonly ProductRepository _productRepository = productRepository;
-    public async Task<ProductDto> CreateProductAsync(ProductRegDto productRegDto)
+    private readonly ICategoryRepository _categoryRepository = categoryRepository;
+    private readonly ICurrencyRepository _currencyRepository = currencyRepository;
+    private readonly IManufactureRepository _manufactureRepository = manufactureRepository;
+    private readonly IProductPriceRepository _productPriceRepository = productPriceRepository;
+    private readonly IProductRepository _productRepository = productRepository;
+    public async Task<bool> CreateProductAsync(ProductRegDto productRegDto)
     {
         try
         {
             if (!await _productRepository.ExistsAsync(x => x.ArticleNumber == productRegDto.ArticleNumber))
             {
                 var manufactureEntity = await _manufactureRepository.GetAsync(x => x.Manufacture1 == productRegDto.Manufacture);
-                if (manufactureEntity == null)
-                {
-                    manufactureEntity = await _manufactureRepository.CreateAsync(new Manufacture { Manufacture1 = productRegDto.Manufacture });
-                }
+                manufactureEntity ??= await _manufactureRepository.CreateAsync(new Manufacture { Manufacture1 = productRegDto.Manufacture });
 
                 var categoryEntity = await _categoryRepository.GetAsync(x => x.CategoryName == productRegDto.CategoryName);
-                if (categoryEntity == null)
-                {
-                    categoryEntity = await _categoryRepository.CreateAsync(new Category { CategoryName = productRegDto.CategoryName });
-                }
+                categoryEntity ??= await _categoryRepository.CreateAsync(new Category { CategoryName = productRegDto.CategoryName });
 
                 var currencyEntity = await _currencyRepository.GetAsync(x => x.Code == productRegDto.CurrencyCode);
-                if (currencyEntity == null)
+                currencyEntity ??= await _currencyRepository.CreateAsync(new Currency{ Code = productRegDto.CurrencyCode!, Currency1 = productRegDto.Currency!});
+                
+                var productEntity = new Product
                 {
-                    currencyEntity = await _currencyRepository.CreateAsync(new Currency
+                    ArticleNumber = productRegDto.ArticleNumber,
+                    Title = productRegDto.Title,
+                    Description = productRegDto.Description,
+                    Specification = productRegDto.Specification,
+                    Manufacture = manufactureEntity,
+                    Category = categoryEntity,
+                    ManufactureId = manufactureEntity.Id,
+                    CategoryId = categoryEntity.Id,
+                    ProductPrice = new ProductPrice
                     {
-                        Code = productRegDto.CurrencyCode!,
-                        Currency1 = productRegDto.Currency!
-                    });
-                }
+                        Price = (decimal)productRegDto.Price!,
+                        CurrencyCodeNavigation = currencyEntity,
+                    },
+                };
 
-                var productEntity = await _productRepository.CreateAsync(productRegDto);
-                return productEntity;
+                var result = await _productRepository.CreateAsync(productEntity);
+                return true;
             }
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 
-        return null!;
+        return false;
     }
 
     public async Task<bool> DeleteProductAsync(ProductDto productDto)
@@ -90,11 +93,14 @@ public class ProductService(CategoryRepository categoryRepository, CurrencyRepos
         try
         {
             var productEntities = await _productRepository.GetAsync();
-            foreach (var productEntity in productEntities)
+            if (productEntities != null)
             {
-                products.Add(productEntity);
+                foreach (var productEntity in productEntities)
+                {
+                    products.Add(productEntity);
+                }
+                return products;
             }
-            return products;
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 

@@ -1,8 +1,5 @@
 ﻿using Infrastructure.Dtos;
-using Infrastructure.Entities;
 using Infrastructure.Interfaces;
-using Infrastructure.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Presentation.ConsoleApp;
 
@@ -10,13 +7,11 @@ internal class ConsoleUI
 {
     private readonly IUserService _userService;
     private readonly IProductService _productService;
-    private readonly ICurrencyRepository _currencyRepository;
 
-    public ConsoleUI(IUserService userService, IProductService productService, CurrencyRepository currencyRepository)
+    public ConsoleUI(IUserService userService, IProductService productService)
     {
         _userService = userService;
         _productService = productService;
-        _currencyRepository = currencyRepository;
     }
 
     public async Task MainMenu()
@@ -173,12 +168,12 @@ internal class ConsoleUI
                 Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
             }
-            else
-            {
-                Console.WriteLine("No users was found.");
-                Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
-            }
+        }
+        else
+        {
+            Console.WriteLine("No users was found.");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
         }
     }
 
@@ -369,32 +364,38 @@ internal class ConsoleUI
         ProductRegDto product = new();
 
         Console.Clear();
+        Console.WriteLine("--- Create New Product ---");
+        Console.WriteLine();
+
+        Console.Write("Enter Article Number: ");
+        product.ArticleNumber = Console.ReadLine()!;
+
         Console.Write("Enter Title: ");
         product.Title = Console.ReadLine()!;
 
-        Console.Write("Enter description: ");
+        Console.Write("Enter Description: ");
         product.Description = Console.ReadLine()!;
 
-        Console.Write("Enter specification: ");
+        Console.Write("Enter Specification: ");
         product.Specification = Console.ReadLine()!;
 
-        Console.Write("Enter categoryname: ");
+        Console.Write("Enter Categoryname: ");
         product.CategoryName = Console.ReadLine()!;
 
-        Console.Write("Enter manufacture: ");
+        Console.Write("Enter Manufacture: ");
         product.Manufacture = Console.ReadLine()!;
 
-        Console.WriteLine("Enter price: ");
+        Console.Write("Enter Price: ");
         product.Price = decimal.Parse(Console.ReadLine()!);
 
-        Console.WriteLine("Enter currency code: ");
+        Console.Write("Enter Currency Code: ");
         product.CurrencyCode = Console.ReadLine()!;
 
-        Console.WriteLine("Enter currency: ");
+        Console.Write("Enter Currency: ");
         product.Currency = Console.ReadLine()!;
 
         var result = await _productService.CreateProductAsync(product);
-        if (result != null)
+        if (result == true)
         {
             Console.Clear();
             Console.WriteLine("Product was created!");
@@ -441,25 +442,131 @@ internal class ConsoleUI
                 Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
             }
-            else
-            {
-                Console.WriteLine("No contacts was found.");
-                Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
-            }
+        }
+        else
+        {
+            Console.Clear();
+            Console.WriteLine("No contacts was found.");
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
         }
     }
     public async Task GetProduct_UI()
     {
+        Console.WriteLine("Enter the article number of the product you want to retrieve: ");
 
+        var articleNumberInput = Console.ReadLine();
+
+        if (articleNumberInput != null)
+        {
+            var result = await _productService.GetProductAsync(x => x.ArticleNumber == articleNumberInput);
+
+            Console.Clear();
+
+            if (result != null)
+            {
+                Console.WriteLine();
+                Console.WriteLine($"Article Number: {result.ArticleNumber}");
+                Console.WriteLine($"{result.Title}");
+                Console.WriteLine($"{result.Description} ");
+                Console.WriteLine($"{result.Specification}");
+                Console.WriteLine($"{result.Manufacture} ");
+                Console.WriteLine($"{result.CategoryName}");
+                Console.WriteLine($"{result.Price} {result.CurrencyCode} {result.Currency}  ");
+                Console.WriteLine();
+                Console.WriteLine("-----PRESS ANY KEY TO RETURN TO MENU-----");
+            }
+            else
+            {
+                Console.WriteLine("No product found.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid article number.");
+        }
     }
     public async Task UpdateProduct_UI()
     {
+        Console.WriteLine("Enter the article number of the product you want to retrieve: ");
 
+        var articleNumberInput = Console.ReadLine();
+
+        if (articleNumberInput != null)
+        {
+            var productToUpdate = await _productService.GetProductAsync(x => x.ArticleNumber == articleNumberInput);
+
+            if (productToUpdate != null)
+            {
+                Console.Clear();
+                Console.WriteLine("Enter new product details:");
+
+                Console.Write("Enter Title:  ");
+                productToUpdate.Title = Console.ReadLine()!;
+
+                Console.Write("Enter new description:  ");
+                productToUpdate.Description = Console.ReadLine()!;
+
+                Console.Write("Enter new specification:  ");
+                productToUpdate.Specification = Console.ReadLine()!;
+
+                Console.Write("Enter new categoryname:  ");
+                productToUpdate.CategoryName = Console.ReadLine()!;
+
+                Console.Write("Enter new manufacturer:  ");
+                productToUpdate.Manufacture = Console.ReadLine()!;
+
+                Console.Write("Enter new price:  ");
+                productToUpdate.Price = decimal.Parse(Console.ReadLine()!);
+
+                Console.Write("Enter new currency code:  ");
+                productToUpdate.CurrencyCode = Console.ReadLine()!;
+
+                Console.Write("Enter new currency full name:  ");
+                productToUpdate.Currency = Console.ReadLine()!;
+
+                var updatedProductResult = await _productService.UpdateProductAsync(productToUpdate);
+                if (updatedProductResult != null)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Product successfully updated!");
+
+                    Console.WriteLine();
+                    Console.WriteLine("Press enter to continue...");
+                }
+                else
+                {
+                    Console.WriteLine("Failed to update product");
+                    Console.WriteLine();
+                    Console.WriteLine("Press enter to continue...");
+                }
+                Console.ReadKey();
+            }
+        }
     }
     public async Task DeleteProduct_UI()
     {
+        Console.WriteLine("Type the article number of the product you want to delete: ");
 
+        var articleNumberInput = Console.ReadLine();
+
+        if (articleNumberInput != null)
+        {
+            var deleteResult = await _productService.DeleteProductAsync(new ProductDto { ArticleNumber = articleNumberInput });
+
+            if (deleteResult)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Product successfully deleted!");
+            }
+            else
+            {
+                Console.WriteLine("Failed to delete the product.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid article number.");
+        }
     }
-
 }

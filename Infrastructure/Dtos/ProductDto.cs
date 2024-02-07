@@ -17,7 +17,7 @@ public class ProductDto
 
     public static implicit operator ProductDto(Product product)
     {
-        return new ProductDto
+        var productDto = new ProductDto
         {
             ArticleNumber = product.ArticleNumber,
             Title = product.Title,
@@ -26,7 +26,9 @@ public class ProductDto
             Manufacture = product.Manufacture.Manufacture1,
             CategoryName = product.Category.CategoryName,
             Price = product.ProductPrice!.Price,
-            CurrencyCode = product.ProductPrice.CurrencyCodeNavigation.Code
+            CurrencyCode = product.ProductPrice.CurrencyCodeNavigation.Code,
+            Currency = product.ProductPrice?.CurrencyCodeNavigation.Currency1
         };
+        return productDto;
     }
 }

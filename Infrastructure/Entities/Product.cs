@@ -58,7 +58,8 @@ public partial class Product
 
                 CurrencyCodeNavigation = new Currency
                 {
-                    Code = productRegDto.CurrencyCode!
+                    Code = productRegDto.CurrencyCode!,
+                    Currency1 = productRegDto.Currency!
                 }
             }
         };
