@@ -69,7 +69,6 @@ public class UserService(IUserRepository userRepository, IAuthRepository authRep
             var userEntity = await _userRepository.GetAsync(x => x.Id == userDto.Id);
             if (userEntity != null)
             {
-                // Update userEntity properties with values from userDto
                 userEntity.LastModified = userDto.LastModified;
                 userEntity.Profile.FirstName = userDto.FirstName;
                 userEntity.Profile.LastName = userDto.LastName;
@@ -77,8 +76,6 @@ public class UserService(IUserRepository userRepository, IAuthRepository authRep
                 userEntity.Auth.Email = userDto.Email;
                 userEntity.Auth.Password = userDto.Password;
 
-                // Update Addresses if needed
-                // Note: This assumes AddressDto and AddressEntity have similar properties
                 userEntity.Profile.Addresses.Clear();
                 foreach (var addressDto in userDto.Addresses)
                 {
