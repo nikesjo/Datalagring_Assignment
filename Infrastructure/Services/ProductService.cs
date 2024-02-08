@@ -173,7 +173,7 @@ public class ProductService(ICategoryRepository categoryRepository, ICurrencyRep
                     }
                 }
 
-                var updatedCustomerEntity = await _productRepository.UpdateAsync(x => x.ArticleNumber == updateProduct.ArticleNumber, updateProduct);
+                var updatedProductEntity = await _productRepository.UpdateAsync(x => x.ArticleNumber == updateProduct.ArticleNumber, updateProduct);
 
                 return productDto;
             }
