@@ -10,7 +10,7 @@ public class UserDto
     public string PhoneNumber { get; set; } = null!;
     public string Email { get; set; } = null!;
     public string Password { get; set; } = null!;
-    public DateTime LastModified {  get; set; } = DateTime.Now;
+    public DateTime LastModified {  get; set; }
 
     public List<AddressDto> Addresses { get; set; } = new List<AddressDto>();
 
@@ -20,7 +20,7 @@ public class UserDto
         var userDto = new UserDto
         {
             Id = entity.Id,
-            LastModified = entity.LastModified,
+            LastModified = DateTime.Now,
             FirstName = entity.Profile.FirstName,
             LastName = entity.Profile.LastName,
             PhoneNumber = entity.Profile.PhoneNumber,

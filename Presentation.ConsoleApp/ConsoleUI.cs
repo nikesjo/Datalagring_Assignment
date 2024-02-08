@@ -154,7 +154,9 @@ internal class ConsoleUI
                 foreach (var user in users)
                 {
                     Console.WriteLine();
-                    Console.WriteLine($"{count}. {user.FirstName} {user.LastName} ");
+                    Console.WriteLine($"{count}.");
+                    Console.WriteLine($"User Id: {user.Id}");
+                    Console.WriteLine($"{user.FirstName} {user.LastName} ");
                     Console.WriteLine($"{user.PhoneNumber} {user.Email}");
                     
                     foreach (var address in user.Addresses)
@@ -192,6 +194,7 @@ internal class ConsoleUI
             if (user != null)
             {
                 Console.WriteLine();
+                Console.WriteLine($"User Id: {user.Id}");
                 Console.WriteLine($"{user.FirstName} {user.LastName} ");
                 Console.WriteLine($"{user.PhoneNumber} {user.Email}");
 
@@ -206,6 +209,7 @@ internal class ConsoleUI
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("No user was found.");
                 Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
@@ -300,6 +304,7 @@ internal class ConsoleUI
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("Failed to delete the user.");
                 Console.WriteLine("Press any key to continue...");
                 Console.ReadKey();
@@ -307,6 +312,7 @@ internal class ConsoleUI
         }
         else
         {
+            Console.Clear();
             Console.WriteLine("Invalid email address.");
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
@@ -474,15 +480,18 @@ internal class ConsoleUI
                 Console.WriteLine($"{result.CategoryName}");
                 Console.WriteLine($"{result.Price} {result.CurrencyCode} {result.Currency}  ");
                 Console.WriteLine();
-                Console.WriteLine("-----PRESS ANY KEY TO RETURN TO MENU-----");
+                Console.WriteLine("Press any key to continue...");
+                Console.ReadKey();
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("No product found.");
             }
         }
         else
         {
+            Console.Clear();
             Console.WriteLine("Invalid article number.");
         }
     }
@@ -536,6 +545,7 @@ internal class ConsoleUI
                 }
                 else
                 {
+                    Console.Clear();
                     Console.WriteLine("Failed to update product");
                     Console.WriteLine();
                     Console.WriteLine("Press enter to continue...");
@@ -561,11 +571,13 @@ internal class ConsoleUI
             }
             else
             {
+                Console.Clear();
                 Console.WriteLine("Failed to delete the product.");
             }
         }
         else
         {
+            Console.Clear();
             Console.WriteLine("Invalid article number.");
         }
     }

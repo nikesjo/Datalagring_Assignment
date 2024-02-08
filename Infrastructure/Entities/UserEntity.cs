@@ -22,6 +22,7 @@ public class UserEntity
     {
         var userEntity = new UserEntity
         {
+            IsEnabled = userRegistrationDto.IsEnabled,
             Profile = new ProfileEntity
             {
                 FirstName = userRegistrationDto.FirstName,
