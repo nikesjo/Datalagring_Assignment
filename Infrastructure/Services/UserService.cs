@@ -51,11 +51,14 @@ public class UserService(IUserRepository userRepository, IAuthRepository authRep
         try
         {
             var userEntities = await _userRepository.GetAsync();
-            foreach (var userEntity in userEntities)
+            if (userEntities != null)
             {
-                users.Add(userEntity);
+                foreach (var userEntity in userEntities)
+                {
+                    users.Add(userEntity);
+                }
+                return users;
             }
-            return users;
         }
         catch (Exception ex) { Debug.WriteLine("ERROR :: " + ex.Message); }
 

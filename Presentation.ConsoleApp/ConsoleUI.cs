@@ -125,15 +125,16 @@ internal class ConsoleUI
             Console.Clear();
             Console.WriteLine("User was created!");
             Console.WriteLine();
-            Console.WriteLine("Press any key to continue...");
+            Console.Write("Press any key to continue...");
         }
         else
         {
             Console.Clear();
             Console.WriteLine("Something went wrong!");
             Console.WriteLine();
-            Console.WriteLine("Press any key to continue...");
+            Console.Write("Press any key to continue...");
         }
+        Console.ReadKey();
     }
 
     public async Task GetUsers_UI()
@@ -149,34 +150,44 @@ internal class ConsoleUI
             if (users != null)
             {
                 Console.Clear();
+                Console.WriteLine("--- Show All Users ---");
+                Console.WriteLine();
+
                 int count = 1;
                 foreach (var user in users)
                 {
-                    Console.WriteLine();
                     Console.WriteLine($"{count}.");
-                    Console.WriteLine($"User Id: {user.Id}");
-                    Console.WriteLine($"{user.FirstName} {user.LastName} ");
-                    Console.WriteLine($"{user.PhoneNumber} {user.Email}");
+                    Console.WriteLine($"  User Id: {user.Id}");
+                    Console.WriteLine($"  {user.FirstName} {user.LastName} ");
+                    Console.WriteLine($"  {user.PhoneNumber} {user.Email}");
                     
                     foreach (var address in user.Addresses)
                     {
-                        Console.WriteLine($"{address.StreetName}");
-                        Console.WriteLine($"{address.PostalCode} {address.City}");
+                        Console.WriteLine($"  {address.StreetName}");
+                        Console.WriteLine($"  {address.PostalCode} {address.City}");
                     }
                     Console.WriteLine();
                     count++;
                 }
                 Console.WriteLine();
-                Console.WriteLine("Press any key to continue...");
+                Console.Write("Press any key to continue...");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("No users was found.");
+                Console.WriteLine();
+                Console.Write("Press any key to continue...");
             }
         }
         else
         {
             Console.Clear();
-            Console.WriteLine("No users was found.");
+            Console.WriteLine("Failed to retrieve users.");
             Console.WriteLine();
-            Console.WriteLine("Press any key to continue...");
+            Console.Write("Press any key to continue...");
         }
+        Console.ReadKey();
     }
 
     public async Task GetUser_UI()
@@ -205,15 +216,16 @@ internal class ConsoleUI
                     Console.WriteLine($"{address.PostalCode} {address.City}");
                 }
                 Console.WriteLine();
-                Console.WriteLine("Press any key to continue...");
+                Console.Write("Press any key to continue...");
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("No user was found.");
                 Console.WriteLine();
-                Console.WriteLine("Press any key to continue...");
+                Console.Write("Press any key to continue...");
             }
+            Console.ReadKey();
         }
     }
 
@@ -269,15 +281,16 @@ internal class ConsoleUI
                     Console.Clear();
                     Console.WriteLine("User successfully updated!");
                     Console.WriteLine();
-                    Console.WriteLine("Press any key to continue...");
+                    Console.Write("Press any key to continue...");
                 }
                 else
                 {
                     Console.Clear();
                     Console.WriteLine("Failed to update user");
                     Console.WriteLine();
-                    Console.WriteLine("Press any key to continue...");
+                    Console.Write("Press any key to continue...");
                 }
+                Console.ReadKey();
             }
         }
     }
@@ -298,21 +311,25 @@ internal class ConsoleUI
             {
                 Console.Clear();
                 Console.WriteLine("User successfully deleted!");
-                Console.WriteLine("Press any key to continue...");
+                Console.WriteLine();
+                Console.Write("Press any key to continue...");
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("Failed to delete the user.");
-                Console.WriteLine("Press any key to continue...");
+                Console.WriteLine();
+                Console.Write("Press any key to continue...");
             }
         }
         else
         {
             Console.Clear();
             Console.WriteLine("Invalid email.");
-            Console.WriteLine("Press any key to continue...");
+            Console.WriteLine();
+            Console.Write("Press any key to continue...");
         }
+        Console.ReadKey();
     }
 
     //Products
@@ -399,14 +416,17 @@ internal class ConsoleUI
         {
             Console.Clear();
             Console.WriteLine("Product was created!");
-            Console.WriteLine("Press any key to continue...");
+            Console.WriteLine();
+            Console.Write("Press any key to continue...");
         }
         else
         {
             Console.Clear();
             Console.WriteLine("Something went wrong!");
-            Console.WriteLine("Press any key to continue...");
+            Console.WriteLine();
+            Console.Write("Press any key to continue...");
         }
+        Console.ReadKey();
     }
 
     public async Task GetProducts_UI()
@@ -422,31 +442,43 @@ internal class ConsoleUI
 
             if (products != null)
             {
+                Console.Clear();
+                Console.WriteLine("--- Show All Products ---");
+                Console.WriteLine();
+
                 int count = 1;
                 foreach (var product in products)
                 {
-                    Console.WriteLine();
                     Console.WriteLine($"{count}. ");
-                    Console.WriteLine($"Article Number: {product.ArticleNumber}");
-                    Console.WriteLine($"{product.Title}");
-                    Console.WriteLine($"{product.Description} ");
-                    Console.WriteLine($"{product.Specification}");
-                    Console.WriteLine($"{product.Manufacture} ");
-                    Console.WriteLine($"{product.CategoryName}");
-                    Console.WriteLine($"{product.Price} {product.CurrencyCode} {product.Currency}  ");
+                    Console.WriteLine($"  Article Number: {product.ArticleNumber}");
+                    Console.WriteLine($"  {product.Title}");
+                    Console.WriteLine($"  {product.Description} ");
+                    Console.WriteLine($"  {product.Specification}");
+                    Console.WriteLine($"  {product.Manufacture} ");
+                    Console.WriteLine($"  {product.CategoryName}");
+                    Console.WriteLine($"  {product.Price} {product.CurrencyCode} {product.Currency}  ");
                     Console.WriteLine();
 
                     count++;
                 }
-                Console.WriteLine("Press any key to continue...");
+                Console.Write("Press any key to continue...");
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("No products was found.");
+                Console.WriteLine();
+                Console.Write("Press any key to continue...");
             }
         }
         else
         {
             Console.Clear();
-            Console.WriteLine("No contacts was found.");
-            Console.WriteLine("Press any key to continue...");
+            Console.WriteLine("Failed to retrieve products.");
+            Console.WriteLine();
+            Console.Write("Press any key to continue...");
         }
+        Console.ReadKey();
     }
     public async Task GetProduct_UI()
     {
@@ -480,13 +512,18 @@ internal class ConsoleUI
             {
                 Console.Clear();
                 Console.WriteLine("No product found.");
+                Console.WriteLine();
+                Console.Write("Press enter to continue...");
             }
         }
         else
         {
             Console.Clear();
             Console.WriteLine("Invalid article number.");
+            Console.WriteLine();
+            Console.Write("Press enter to continue...");
         }
+        Console.ReadKey();
     }
     public async Task UpdateProduct_UI()
     {
@@ -518,7 +555,7 @@ internal class ConsoleUI
                 Console.Write("Enter new categoryname:  ");
                 productToUpdate.CategoryName = Console.ReadLine()!;
 
-                Console.Write("Enter new manufacturer:  ");
+                Console.Write("Enter new manufacture:  ");
                 productToUpdate.Manufacture = Console.ReadLine()!;
 
                 Console.Write("Enter new price:  ");
@@ -533,18 +570,20 @@ internal class ConsoleUI
                 var updatedProductResult = await _productService.UpdateProductAsync(productToUpdate);
                 if (updatedProductResult != null)
                 {
+                    Console.Clear();
                     Console.WriteLine();
                     Console.WriteLine("Product successfully updated!");
                     Console.WriteLine();
-                    Console.WriteLine("Press enter to continue...");
+                    Console.Write("Press enter to continue...");
                 }
                 else
                 {
                     Console.Clear();
                     Console.WriteLine("Failed to update product");
                     Console.WriteLine();
-                    Console.WriteLine("Press enter to continue...");
+                    Console.Write("Press enter to continue...");
                 }
+                Console.ReadKey();
             }
         }
     }
@@ -563,19 +602,27 @@ internal class ConsoleUI
 
             if (deleteResult)
             {
+                Console.Clear();
                 Console.WriteLine();
                 Console.WriteLine("Product successfully deleted!");
+                Console.WriteLine();
+                Console.Write("Press enter to continue...");
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("Failed to delete the product.");
+                Console.WriteLine();
+                Console.Write("Press enter to continue...");
             }
         }
         else
         {
             Console.Clear();
             Console.WriteLine("Invalid article number.");
+            Console.WriteLine();
+            Console.Write("Press enter to continue...");
         }
+        Console.ReadKey();
     }
 }
