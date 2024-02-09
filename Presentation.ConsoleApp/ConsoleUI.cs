@@ -83,8 +83,6 @@ internal class ConsoleUI
                     Console.WriteLine("Invalid option, please try again");
                     break;
             }
-
-            Console.ReadKey();
         }
     }
 
@@ -94,7 +92,8 @@ internal class ConsoleUI
         UserRegistrationDto user = new();
 
         Console.Clear();
-        Console.WriteLine("--- Create User ---");
+        Console.WriteLine("--- Create New User ---");
+        Console.WriteLine();
 
         Console.Write("First Name:");
         user.FirstName = Console.ReadLine()!;
@@ -125,15 +124,15 @@ internal class ConsoleUI
         {
             Console.Clear();
             Console.WriteLine("User was created!");
+            Console.WriteLine();
             Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
         }
         else
         {
             Console.Clear();
             Console.WriteLine("Something went wrong!");
+            Console.WriteLine();
             Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
         }
     }
 
@@ -167,15 +166,16 @@ internal class ConsoleUI
                     Console.WriteLine();
                     count++;
                 }
+                Console.WriteLine();
                 Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
             }
         }
         else
         {
+            Console.Clear();
             Console.WriteLine("No users was found.");
+            Console.WriteLine();
             Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
         }
     }
 
@@ -183,6 +183,7 @@ internal class ConsoleUI
     {
         Console.Clear();
         Console.WriteLine("--- Show Specific User ---");
+        Console.WriteLine();
         Console.WriteLine("Enter User Email: ");
         var email = Console.ReadLine();
 
@@ -205,14 +206,13 @@ internal class ConsoleUI
                 }
                 Console.WriteLine();
                 Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("No user was found.");
+                Console.WriteLine();
                 Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
             }
         }
     }
@@ -221,6 +221,7 @@ internal class ConsoleUI
     {
         Console.Clear();
         Console.WriteLine("--- Update User ---");
+        Console.WriteLine();
         Console.WriteLine("Enter User Id: ");
         var id = int.Parse(Console.ReadLine()!);
 
@@ -267,10 +268,8 @@ internal class ConsoleUI
                 {
                     Console.Clear();
                     Console.WriteLine("User successfully updated!");
-
                     Console.WriteLine();
                     Console.WriteLine("Press any key to continue...");
-                    Console.ReadKey();
                 }
                 else
                 {
@@ -278,7 +277,6 @@ internal class ConsoleUI
                     Console.WriteLine("Failed to update user");
                     Console.WriteLine();
                     Console.WriteLine("Press any key to continue...");
-                    Console.ReadKey();
                 }
             }
         }
@@ -288,6 +286,7 @@ internal class ConsoleUI
     {
         Console.Clear();
         Console.WriteLine("--- Delete User ---");
+        Console.WriteLine();
         Console.WriteLine("Enter User Email: ");
         var email = Console.ReadLine();
 
@@ -300,22 +299,19 @@ internal class ConsoleUI
                 Console.Clear();
                 Console.WriteLine("User successfully deleted!");
                 Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("Failed to delete the user.");
                 Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
             }
         }
         else
         {
             Console.Clear();
-            Console.WriteLine("Invalid email address.");
+            Console.WriteLine("Invalid email.");
             Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
         }
     }
 
@@ -360,8 +356,6 @@ internal class ConsoleUI
                     Console.WriteLine("Invalid option, please try again");
                     break;
             }
-
-            Console.ReadKey();
         }
     }
 
@@ -413,13 +407,13 @@ internal class ConsoleUI
             Console.WriteLine("Something went wrong!");
             Console.WriteLine("Press any key to continue...");
         }
-        Console.ReadKey();
     }
 
     public async Task GetProducts_UI()
     {
         Console.Clear();
         Console.WriteLine("--- Show All Products ---");
+        Console.WriteLine();
         var result = await _productService.GetProductsAsync();
 
         if (result != null)
@@ -428,7 +422,6 @@ internal class ConsoleUI
 
             if (products != null)
             {
-                Console.Clear();
                 int count = 1;
                 foreach (var product in products)
                 {
@@ -446,7 +439,6 @@ internal class ConsoleUI
                     count++;
                 }
                 Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
             }
         }
         else
@@ -454,12 +446,14 @@ internal class ConsoleUI
             Console.Clear();
             Console.WriteLine("No contacts was found.");
             Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
         }
     }
     public async Task GetProduct_UI()
     {
-        Console.WriteLine("Enter the article number of the product you want to retrieve: ");
+        Console.Clear();
+        Console.WriteLine("--- Show Specific Product ---");
+        Console.WriteLine();
+        Console.WriteLine("Enter the products article number: ");
 
         var articleNumberInput = Console.ReadLine();
 
@@ -481,7 +475,6 @@ internal class ConsoleUI
                 Console.WriteLine($"{result.Price} {result.CurrencyCode} {result.Currency}  ");
                 Console.WriteLine();
                 Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
             }
             else
             {
@@ -497,7 +490,10 @@ internal class ConsoleUI
     }
     public async Task UpdateProduct_UI()
     {
-        Console.WriteLine("Enter the article number of the product you want to retrieve: ");
+        Console.Clear();
+        Console.WriteLine("--- Update Product ---");
+        Console.WriteLine();
+        Console.WriteLine("Enter the products article number: ");
 
         var articleNumberInput = Console.ReadLine();
 
@@ -539,7 +535,6 @@ internal class ConsoleUI
                 {
                     Console.WriteLine();
                     Console.WriteLine("Product successfully updated!");
-
                     Console.WriteLine();
                     Console.WriteLine("Press enter to continue...");
                 }
@@ -550,13 +545,15 @@ internal class ConsoleUI
                     Console.WriteLine();
                     Console.WriteLine("Press enter to continue...");
                 }
-                Console.ReadKey();
             }
         }
     }
     public async Task DeleteProduct_UI()
     {
-        Console.WriteLine("Type the article number of the product you want to delete: ");
+        Console.Clear();
+        Console.WriteLine("--- Delete Product ---");
+        Console.WriteLine();
+        Console.WriteLine("Enter the products article number: ");
 
         var articleNumberInput = Console.ReadLine();
 
